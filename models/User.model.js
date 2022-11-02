@@ -4,11 +4,36 @@ const { Schema, model } = require("mongoose");
 const userSchema = new Schema({
   username: {
     type: String,
-    unique: true
+    unique: true,
+    required:true,
+    validate: {
+      validator: function (v) {
+        return v.length > 3
+      },
+      message: props => `You username is too short, only ${props.value.length} characters long`,
+    },
   },
-  password: String
+  password: { type: String, required: true },
 });
 
 const User = model("User", userSchema);
 
 module.exports = User;
+
+//   username: {
+//     type: String,
+//     trim: true,
+//     required: true,
+//     unique: true,
+//     validate: {
+//       validator: function (v) {
+//         return v.length > 3
+//       },
+//       message: props => `You username is too short, only ${props.value.length} characters long`,
+//     },
+//   },
+//   password: {
+//     type: String,
+//     required: true,
+//   },
+// });
